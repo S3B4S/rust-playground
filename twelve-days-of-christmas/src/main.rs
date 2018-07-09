@@ -12,7 +12,8 @@ fn main() {
     for (i, word) in words.iter().enumerate() {
         println!("On the {} day of christmas my true love sent me", word);
 
-        for number in (0..i + 1).rev() {
+        let end = i + 1;
+        for number in (0..end).rev() {
             println!("{}", main_text[number]);
         }
 
