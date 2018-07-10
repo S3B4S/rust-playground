@@ -33,9 +33,8 @@ fn mean(vec: &Vec<i32>) -> i32 {
 fn median(vec: &Vec<i32>) -> i32 {
     let mut copy = vec.to_vec();
     copy.sort();
-    let mut index_middle = if vec.len() % 2 == 0 { vec.len() } else { vec.len() - 1 };
-    index_middle = index_middle / 2;
-    copy[index_middle]
+    let halved = vec.len() / 2;
+    copy[halved]
 }
 
 /**
