@@ -21,6 +21,7 @@ fn main() {
         println!("1. View all employees of the company.");
         println!("2. View all employees of chosen department.");
         println!("3. Add an employee.");
+        println!("4. Exit the program.");
         println!("");
 
         let mut input = String::new();
@@ -28,7 +29,7 @@ fn main() {
         io::stdin().read_line(&mut input)
             .expect("Failed to read line");
 
-        let mut input = match input.trim().parse::<i32>() {
+        let input = match input.trim().parse::<i32>() {
             Ok(value) => value,
             Err(_) => {
                 println!("Please put in a number");
@@ -37,9 +38,10 @@ fn main() {
         };
 
         match input {
-             1 => employeesByDepartment(),
-             2 => allEmployees(),
-             3 => addEmployee(),
+             1 => employees_by_department(),
+             2 => all_employees(),
+             3 => add_employee(),
+             4 => break,
              _ => {
                 println!("Please choose one of the options");
                 continue;
@@ -48,14 +50,27 @@ fn main() {
     }
 }
 
-fn employeesByDepartment() {
+fn employees_by_department() {
 
 }
 
-fn allEmployees() {
+fn all_employees() {
 
 }
 
-fn addEmployee() {
+fn add_employee() {
+    let mut name = String::new();
+    let mut department = String::new();
 
+    println!("Name of employee:");
+    io::stdin().read_line(&mut name)
+        .expect("Failed to read line");
+
+    println!("Department of employee:");
+    io::stdin().read_line(&mut department)
+        .expect("Failed to read line");
+
+    let name = name.trim();
+    let department = department.trim();
+    println!("Employee {} added to {}", name, department);
 }
