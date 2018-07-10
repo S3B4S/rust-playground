@@ -66,8 +66,11 @@ fn all_employees(map: &HashMap<String, String>) {
     println!("|| All employees currently working at your company");
     println!("");
 
-    // Add to another hashmap, with key department
-    // and value a vector of employees working that department
+    /*
+    * Add to an other hashmap where
+    * the key is the department
+    * and the value is a vector of persons
+    */
     for (key, value) in map.iter() {
         let vec = map_by_department.entry(value.to_string())
             .or_insert(Vec::new());
