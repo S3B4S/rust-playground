@@ -15,46 +15,76 @@ use std::io;
 fn main() {
     let mut map: HashMap<String, String> = HashMap::new();
     
+    // Init test values
+    map.insert("Kevin".to_string(), "Gamedev".to_string());
+    map.insert("Buck".to_string(), "Design".to_string());
+    map.insert("Oz".to_string(), "Gamedev".to_string());
+    map.insert("Jennifer".to_string(), "Art".to_string());
+
     loop {
         println!("");
-        println!("Welcome! Which action do you want to perform?");
-        println!("1. View all employees of the company.");
-        println!("2. View all employees of chosen department.");
-        println!("3. Add an employee.");
-        println!("4. Exit the program.");
+        println!("| Welcome! Which action do you want to perform?");
+        println!("| 1. View all employees of the company.");
+        println!("| 2. View all employees of chosen department.");
+        println!("| 3. Add an employee.");
+        println!("| 4. Exit the program.");
         println!("");
 
         let mut input = String::new();
 
         io::stdin().read_line(&mut input)
-            .expect("Failed to read line");
+            .expect("| Failed to read line");
 
         let input = match input.trim().parse::<i32>() {
             Ok(value) => value,
             Err(_) => {
-                println!("Please put in a number");
+                println!("| Please put in a number");
                 continue;
             },
         };
 
         match input {
-             1 => employees_by_department(&map),
-             2 => all_employees(&map),
+             1 => all_employees(&map),
+             2 => employees_by_department(&map),
              3 => add_employee(&mut map),
              4 => break,
              _ => {
-                println!("Please choose one of the options");
+                println!("| Please choose one of the options");
                 continue;
             }
         }
     }
 }
 
-fn employees_by_department(map: &HashMap<String, String>) {
+/**
+ * Show all employees, by department, sorted alphabetically by name
+ */
+fn all_employees(map: &HashMap<String, String>) {
+    let mut mapByDepartment: HashMap<String, Vec<String> > = HashMap::new();
+    
+    println!("");
+    println!("|| All employees currently working at your company");
+    println!("");
 
+    // Add to another hashmap, with key department
+    // and value a vector of employees working that department
+    for (key, value) in map.iter() {
+        let vec = mapByDepartment.entry(value.to_string())
+            .or_insert(Vec::new());
+        vec.push(key.to_string());
+        vec.sort();
+    }
+
+    for (department, persons) in mapByDepartment.iter() {
+        println!("|| {}", department.to_uppercase());
+        for person in persons {
+            println!("| {}", person);
+        }
+        println!("");
+    }
 }
 
-fn all_employees(map: &HashMap<String, String>) {
+fn employees_by_department(map: &HashMap<String, String>) {
 
 }
 
