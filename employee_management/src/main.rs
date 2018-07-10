@@ -85,24 +85,38 @@ fn all_employees(map: &HashMap<String, String>) {
 }
 
 fn employees_by_department(map: &HashMap<String, String>) {
+    let mut department_input = String::new();
 
+    println!("");
+    println!("| Department to retrieve names of:");
+    println!("");
+    io::stdin().read_line(&mut department_input)
+        .expect("| Failed to read line");
+
+    let department_input = department_input.trim();
+    
+    for (name, department) in map.iter() {
+        if *department == department_input {
+            println!("| {}", name);
+        }
+    }
 }
 
 fn add_employee(map: &mut HashMap<String, String>) {
     let mut name = String::new();
     let mut department = String::new();
 
-    println!("Name of employee:");
+    println!("| Name of employee:");
     io::stdin().read_line(&mut name)
-        .expect("Failed to read line");
+        .expect("| Failed to read line");
 
-    println!("Department of employee:");
+    println!("| Department of employee:");
     io::stdin().read_line(&mut department)
-        .expect("Failed to read line");
+        .expect("| Failed to read line");
 
     let name = name.trim();
     let department = department.trim();
 
     map.insert(name.to_string(), department.to_string());
-    println!("Employee {} added to {}", name, department);
+    println!("| Employee {} added to {}", name, department);
 }
