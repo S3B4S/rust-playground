@@ -38,8 +38,8 @@ fn main() {
         };
 
         match input {
-             1 => employees_by_department(&mut map),
-             2 => all_employees(&mut map),
+             1 => employees_by_department(&map),
+             2 => all_employees(&map),
              3 => add_employee(&mut map),
              4 => break,
              _ => {
@@ -50,11 +50,11 @@ fn main() {
     }
 }
 
-fn employees_by_department(map: &mut HashMap<String, String>) {
+fn employees_by_department(map: &HashMap<String, String>) {
 
 }
 
-fn all_employees(map: &mut HashMap<String, String>) {
+fn all_employees(map: &HashMap<String, String>) {
 
 }
 
