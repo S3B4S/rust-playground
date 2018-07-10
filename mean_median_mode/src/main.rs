@@ -1,5 +1,6 @@
 /**
  * Chapter 8, Common Collections
+ * https://doc.rust-lang.org/book/second-edition/ch08-03-hash-maps.html#creating-a-new-hash-map
  * 
  * Given a list of integers, use a vector and return 
  * - the mean (the average value), 
