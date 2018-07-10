@@ -60,7 +60,7 @@ fn main() {
  * Show all employees, by department, sorted alphabetically by name
  */
 fn all_employees(map: &HashMap<String, String>) {
-    let mut mapByDepartment: HashMap<String, Vec<String> > = HashMap::new();
+    let mut map_by_department: HashMap<String, Vec<String> > = HashMap::new();
     
     println!("");
     println!("|| All employees currently working at your company");
@@ -69,13 +69,13 @@ fn all_employees(map: &HashMap<String, String>) {
     // Add to another hashmap, with key department
     // and value a vector of employees working that department
     for (key, value) in map.iter() {
-        let vec = mapByDepartment.entry(value.to_string())
+        let vec = map_by_department.entry(value.to_string())
             .or_insert(Vec::new());
         vec.push(key.to_string());
         vec.sort();
     }
 
-    for (department, persons) in mapByDepartment.iter() {
+    for (department, persons) in map_by_department.iter() {
         println!("|| {}", department.to_uppercase());
         for person in persons {
             println!("| {}", person);
