@@ -13,7 +13,7 @@ use std::collections::HashMap;
 use std::io;
 
 fn main() {
-    let mut employees: HashMap<&str, &str> = HashMap::new();
+    let mut map: HashMap<String, String> = HashMap::new();
     
     loop {
         println!("");
@@ -38,9 +38,9 @@ fn main() {
         };
 
         match input {
-             1 => employees_by_department(),
-             2 => all_employees(),
-             3 => add_employee(),
+             1 => employees_by_department(&mut map),
+             2 => all_employees(&mut map),
+             3 => add_employee(&mut map),
              4 => break,
              _ => {
                 println!("Please choose one of the options");
@@ -50,15 +50,15 @@ fn main() {
     }
 }
 
-fn employees_by_department() {
+fn employees_by_department(map: &mut HashMap<String, String>) {
 
 }
 
-fn all_employees() {
+fn all_employees(map: &mut HashMap<String, String>) {
 
 }
 
-fn add_employee() {
+fn add_employee(map: &mut HashMap<String, String>) {
     let mut name = String::new();
     let mut department = String::new();
 
@@ -72,5 +72,7 @@ fn add_employee() {
 
     let name = name.trim();
     let department = department.trim();
+
+    map.insert(name.to_string(), department.to_string());
     println!("Employee {} added to {}", name, department);
 }
