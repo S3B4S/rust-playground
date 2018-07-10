@@ -11,9 +11,10 @@ use std::collections::HashMap;
 
 fn main() {
     let vec = vec![4,50,3,42,32,6,9,6,20,22,12];
-    println!("{}", mean(&vec));     // 206
-    println!("{}", median(&vec));   // 12
-    println!("{}", mode(&vec));     // 6
+    println!("Vector: {:?}", vec);
+    println!("-> Mean: {}", mean(&vec));     // 206
+    println!("-> Median: {}", median(&vec));   // 12
+    println!("-> Mode: {}", mode(&vec));     // 6
 }
 
 /**
