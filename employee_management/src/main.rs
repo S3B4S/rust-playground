@@ -14,12 +14,13 @@ use std::io;
 
 fn main() {
     let mut map: HashMap<String, String> = HashMap::new();
-    
+    let mut map_by_department: HashMap<String, Vec<String>> = HashMap::new();
+
     // Init test values
-    map.insert("Kevin".to_string(), "Gamedev".to_string());
-    map.insert("Buck".to_string(), "Design".to_string());
-    map.insert("Oz".to_string(), "Gamedev".to_string());
-    map.insert("Jennifer".to_string(), "Art".to_string());
+    add_employee(&mut map_by_department, "Gamedev".to_string(), "Kevin".to_string());
+    add_employee(&mut map_by_department, "Design".to_string(), "Buck".to_string());
+    add_employee(&mut map_by_department, "Gamedev".to_string(), "Oz".to_string());
+    add_employee(&mut map_by_department, "Art".to_string(), "Jennifer".to_string());
 
     loop {
         println!("");
@@ -44,9 +45,32 @@ fn main() {
         };
 
         match input {
-             1 => all_employees(&map),
+             1 => {
+                 println!("");
+                 println!("|| All employees currently working at your company");
+                 println!("");
+                 print_all_employees(&map_by_department)
+             },
              2 => employees_by_department(&map),
-             3 => add_employee(&mut map),
+             3 => {
+                 let mut department = String::new();
+                 let mut name = String::new();
+
+                 println!("| Name of employee:");
+                 io::stdin().read_line(&mut name)
+                    .expect("| Failed to read line");
+
+                 println!("| Department of employee:");
+                 io::stdin().read_line(&mut department)
+                    .expect("| Failed to read line");
+
+                 let department = department.trim().to_string();
+                 let name = name.trim().to_string();
+                 let name_department = department.to_string();
+                 let name_copy = name.to_string();
+                 add_employee(&mut map_by_department, department, name);
+                 println!("| Employee {} added to {}", name_copy, name_department);
+             },
              4 => break,
              _ => {
                 println!("| Please choose one of the options");
@@ -59,26 +83,8 @@ fn main() {
 /**
  * Show all employees, by department, sorted alphabetically by name
  */
-fn all_employees(map: &HashMap<String, String>) {
-    let mut map_by_department: HashMap<String, Vec<String> > = HashMap::new();
-    
-    println!("");
-    println!("|| All employees currently working at your company");
-    println!("");
-
-    /*
-    * Add to an other hashmap where
-    * the key is the department
-    * and the value is a vector of persons
-    */
-    for (key, value) in map.iter() {
-        let vec = map_by_department.entry(value.to_string())
-            .or_insert(Vec::new());
-        vec.push(key.to_string());
-        vec.sort();
-    }
-
-    for (department, persons) in map_by_department.iter() {
+fn print_all_employees(map: &HashMap<String, Vec<String>>) {
+    for (department, persons) in map.iter() {
         println!("|| {}", department.to_uppercase());
         for person in persons {
             println!("| {}", person);
@@ -105,21 +111,9 @@ fn employees_by_department(map: &HashMap<String, String>) {
     }
 }
 
-fn add_employee(map: &mut HashMap<String, String>) {
-    let mut name = String::new();
-    let mut department = String::new();
-
-    println!("| Name of employee:");
-    io::stdin().read_line(&mut name)
-        .expect("| Failed to read line");
-
-    println!("| Department of employee:");
-    io::stdin().read_line(&mut department)
-        .expect("| Failed to read line");
-
-    let name = name.trim();
-    let department = department.trim();
-
-    map.insert(name.to_string(), department.to_string());
-    println!("| Employee {} added to {}", name, department);
+fn add_employee(map: &mut HashMap<String, Vec<String>>, department: String, name: String) {
+    let vec = map.entry(department)
+        .or_insert(Vec::new());
+    vec.push(name.to_string());
+    vec.sort();
 }
