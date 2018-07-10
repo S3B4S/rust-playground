@@ -13,14 +13,18 @@ use std::collections::HashMap;
 use std::io;
 
 fn main() {
+    // Initialise hashmap that holds a department as its key paired
+    // with a list of users as its value.
     let mut map_by_department: HashMap<String, Vec<String>> = HashMap::new();
 
-    // Init test values
+    // Initialise mock values
     add_employee(&mut map_by_department, "Gamedev".to_string(), "Kevin".to_string());
     add_employee(&mut map_by_department, "Design".to_string(), "Buck".to_string());
     add_employee(&mut map_by_department, "Gamedev".to_string(), "Oz".to_string());
     add_employee(&mut map_by_department, "Art".to_string(), "Jennifer".to_string());
 
+    // Enter the loop of asking what the user wants.
+    // Only exit when user tells to do so (or when it's terminated).
     loop {
         println!("");
         println!("| Welcome! Which action do you want to perform?:");
@@ -30,12 +34,15 @@ fn main() {
         println!("| 4. Exit the program.");
         println!("");
 
-        let mut input = String::new();
-
-        io::stdin().read_line(&mut input)
+        // Read the line.
+        // If it's not possible, panics and shows the error message.
+        let mut case = String::new();
+        io::stdin().read_line(&mut case)
             .expect("| Failed to read line");
 
-        let input = match input.trim().parse::<i32>() {
+        // Make sure it's an integer.
+        // If it's not, tell the user to put in a number and retry.
+        let case = match case.trim().parse::<i32>() {
             Ok(value) => value,
             Err(_) => {
                 println!("| Please put in a number");
@@ -43,11 +50,12 @@ fn main() {
             },
         };
 
-        match input {
+        match case {
              1 => {
                  println!("");
                  println!("|| All employees currently working at your company");
                  println!("");
+
                  print_all_employees(&map_by_department)
              },
              2 => {
@@ -77,8 +85,13 @@ fn main() {
 
                  let department = department.trim().to_string();
                  let name = name.trim().to_string();
+
+                 // Create copies to print for the user 
+                 // because department and name are going to lose
+                 // ownership when passed to add_employee() (which I intend to do)
                  let name_department = department.to_string();
                  let name_copy = name.to_string();
+                 
                  add_employee(&mut map_by_department, department, name);
                  println!("| Employee {} added to {}", name_copy, name_department);
              },
