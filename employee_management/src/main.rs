@@ -13,7 +13,6 @@ use std::collections::HashMap;
 use std::io;
 
 fn main() {
-    let mut map: HashMap<String, String> = HashMap::new();
     let mut map_by_department: HashMap<String, Vec<String>> = HashMap::new();
 
     // Init test values
@@ -24,7 +23,7 @@ fn main() {
 
     loop {
         println!("");
-        println!("| Welcome! Which action do you want to perform?");
+        println!("| Welcome! Which action do you want to perform?:");
         println!("| 1. View all employees of the company.");
         println!("| 2. View all employees of chosen department.");
         println!("| 3. Add an employee.");
@@ -51,7 +50,19 @@ fn main() {
                  println!("");
                  print_all_employees(&map_by_department)
              },
-             2 => employees_by_department(&map),
+             2 => {
+                 println!("");
+                 println!("| Department to retrieve names of:");
+                 println!("");
+                 
+                 let mut department = String::new();
+                 io::stdin().read_line(&mut department)
+                    .expect("| Failed to read line");
+                 let department = department.trim().to_string();
+
+                 println!("");
+                 employees_by_department(&map_by_department, department)
+             },
              3 => {
                  let mut department = String::new();
                  let mut name = String::new();
@@ -81,7 +92,7 @@ fn main() {
 }
 
 /**
- * Show all employees, by department, sorted alphabetically by name
+ * Show all employees, by department, sorted alphabetically by name.
  */
 fn print_all_employees(map: &HashMap<String, Vec<String>>) {
     for (department, persons) in map.iter() {
@@ -93,24 +104,26 @@ fn print_all_employees(map: &HashMap<String, Vec<String>>) {
     }
 }
 
-fn employees_by_department(map: &HashMap<String, String>) {
-    let mut department_input = String::new();
-
-    println!("");
-    println!("| Department to retrieve names of:");
-    println!("");
-    io::stdin().read_line(&mut department_input)
-        .expect("| Failed to read line");
-
-    let department_input = department_input.trim();
-    
-    for (name, department) in map.iter() {
-        if *department == department_input {
-            println!("| {}", name);
+/**
+ * Show all employees of given department.
+ */
+fn employees_by_department(map: &HashMap<String, Vec<String>>, department_other: String) {
+    println!("|| {}", department_other.to_uppercase());
+    for (department, persons) in map.iter() {
+        if *department == department_other {
+            for person in persons.iter() {
+                println!("| {}", person);
+            }
         }
     }
 }
 
+/**
+ * Add an employee to the hashmap.
+ * If the department already exists, add the person to the vector.
+ * If not, create a new department-persons pair.
+ * All vectors remain sorted after an update.
+ */
 fn add_employee(map: &mut HashMap<String, Vec<String>>, department: String, name: String) {
     let vec = map.entry(department)
         .or_insert(Vec::new());
