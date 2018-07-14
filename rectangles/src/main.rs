@@ -35,3 +35,25 @@ fn main() {
         rect1.can_hold(&rect3)
     );
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn largest_can_hold_smaller() {
+        let largest = Rectangle { width: 30, height: 50 };
+        let smaller = Rectangle { width: 20, height: 30 };
+
+        assert!(largest.can_hold(&smaller));
+    }
+
+    #[test]
+    fn smaller_cannot_hold_larger() {
+        let largest = Rectangle { width: 30, height: 50 };
+        let smaller = Rectangle { width: 20, height: 30 };
+
+        assert!(!smaller.can_hold(&largest));
+    }
+
+}
