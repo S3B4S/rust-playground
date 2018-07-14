@@ -9,31 +9,24 @@ impl Rectangle {
         self.width * self.height
     }
     
+    fn diagonal(&self) -> f32 {
+        let pytha = (self.width.pow(2) + self.height.pow(2)) as f32;
+        pytha.sqrt()
+    }
+
     fn can_hold(&self, other: &Rectangle) -> bool {
         self.width > other.width && self.height > other.height
     }
+
 }
 
 fn main() {
-    let rect1 = Rectangle {
-        width: 30,
-        height: 50,
+    let rectangle = Rectangle {
+        width: 10,
+        height: 20,
     };
 
-    let rect2 = Rectangle {
-        width: 20,
-        height: 40,
-    };
-
-    let rect3 = Rectangle {
-        width: 40,
-        height: 40,
-    };
-
-    println!(
-        "I can hold it: {}",
-        rect1.can_hold(&rect3)
-    );
+    println!("Diagonal: {}", rectangle.diagonal());
 }
 
 #[cfg(test)]
@@ -56,4 +49,10 @@ mod tests {
         assert!(!smaller.can_hold(&largest));
     }
 
+    #[test]
+    fn diagonal_correct() {
+        let rectangle = Rectangle { width: 24, height: 7 };
+
+        assert_eq!(rectangle.diagonal(), 25 as f32);
+    }
 }
